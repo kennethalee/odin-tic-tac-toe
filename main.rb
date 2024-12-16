@@ -1,2 +1,11 @@
-board = "|1|2|3|\n|4|5|6|\n|7|8|9|"
-puts board
+require_relative 'lib/board'
+require_relative 'lib/game'
+require_relative 'lib/player'
+
+begin
+  puts "Welcome to Tic-Tac-Toe!"
+  start_game = Game.new
+  start_game.play
+rescue StandardError => e
+  puts "An error occured: #{e}"
+end
