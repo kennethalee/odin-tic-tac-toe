@@ -31,48 +31,37 @@ class Board
   end
 
   def check_winner
-    if row_winner || col_winner || diagonal_winner
-      true
-    else
-      false
-    end
-  end
-  
-  def row_winner
-    @board.each do |row|
-      return true if row.all? { |symbol| symbol == "X" } || 
-                     row.all? { |symbol| symbol == "O"}
-    end
-    false
-  end
-  
-  def col_winner
-    @board.transpose.each do |row|
-      return true if row.all? { |symbol| symbol == "X" } ||
-                     row.all? { |symbol| symbol == "O"}
-    end
-    false
-  end
-  
-  def diagonal_winner
+    # check row 
+    return true if @board.any? {
+      |row| row.uniq.size == 1 && ["X", "O"].include?(row.first) 
+    }
+
+    # check column
+    transposed_board = @board.transpose
+    return true if transposed_board.any? {
+      |col| col.uniq.size == 1 && ["X", "O"].include?(col.first)
+    }
+    
+    # check diagonal
     n = @board.size
-    primary_diagonal, secondary_diagonal = [], []
-    for i in 0..n - 1
-      primary_diagonal << @board[i][i]
-      secondary_diagonal << @board[i][n - 1 - i]
-    end
-    if primary_diagonal.all? { |symbol| symbol == "X"} || 
-       primary_diagonal.all? { |symbol| symbol == "O"} || 
-       secondary_diagonal.all? { |symbol| symbol == "X"} || 
-       secondary_diagonal.all? { |symbol| symbol == "O"}
-       return true
-    end
+    primary_diagonal = (0...n).map { |i| @board[i][i] }
+    secondary_diagonal = (0...n).map { |i| @board[i][n - 1 - i] }
+
+    return true if [primary_diagonal, secondary_diagonal].any? {
+      |diagonal| diagonal.uniq.size == 1 && ["X", "O"].include?(diagonal.first)
+    }
+
     false
   end
 end
 
+
+# Tests
 test = Board.new()
-test.update(5, "O")
-test.update(10, "X")
+test.update(3, "X")
+test.update(6, "X")
+test.update(0, "X")
+test.update(1, "X")
+test.display
 p test.check_winner
 
