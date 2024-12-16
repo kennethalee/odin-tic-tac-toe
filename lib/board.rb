@@ -37,7 +37,7 @@ class Board
   end
 
   def row_winner
-    return true if @board.each do |row|
+    return true if @board.any? do |row|
       row.uniq.size == 1 && %w[X O].include?(row.first)
     end
 
@@ -63,5 +63,10 @@ class Board
     end
 
     false
+  end
+
+  def full?
+    board_full = @board.flatten.all? { |symbol| %(X O).include?(symbol.to_s) }
+    check_winner == false && board_full
   end
 end
