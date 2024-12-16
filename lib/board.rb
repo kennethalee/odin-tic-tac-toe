@@ -16,7 +16,9 @@ class Board
   end
 
   def valid_move?(position)
-    position.is_a?(Integer) && (1..9).include?(position)
+    position.is_a?(Integer) &&
+      (1..9).include?(position) &&
+      not_occupied?(position)
   end
 
   def update(position, symbol)
@@ -25,6 +27,19 @@ class Board
     row = (position - 1) / 3
     col = (position - 1) % 3
     @board[row][col] = symbol
+  end
+
+  def full?
+    board_full = @board.flatten.all? { |symbol| %(X O).include?(symbol.to_s) }
+    check_winner == false && board_full
+  end
+
+  private
+
+  def not_occupied?(position)
+    row = (position - 1) / 3
+    col = (position - 1) % 3
+    @board[row][col].is_a?(Integer)
   end
 
   def check_winner
@@ -62,10 +77,5 @@ class Board
     end
 
     false
-  end
-
-  def full?
-    board_full = @board.flatten.all? { |symbol| %(X O).include?(symbol.to_s) }
-    check_winner == false && board_full
   end
 end
