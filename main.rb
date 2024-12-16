@@ -3,7 +3,7 @@ require_relative 'lib/game'
 require_relative 'lib/player'
 
 begin
-  puts "Welcome to Tic-Tac-Toe!"
+  puts 'Welcome to Tic-Tac-Toe!'
   start_game = Game.new
   start_game.play
 rescue StandardError => e
