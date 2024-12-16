@@ -52,6 +52,10 @@ class Game
     puts "It's a tie!"
   end
 
+  def announce_turn
+    puts "#{@current_player.name}'s turn."
+  end
+
   def game_over?
     @board.check_winner || @board.full?
   end
@@ -60,6 +64,3 @@ class Game
     @current_player = @current_player == @player1 ? @player2 : @player1
   end
 end
-
-test = Game.new
-test.play

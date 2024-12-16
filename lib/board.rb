@@ -8,6 +8,7 @@ class Board
   end
 
   def display
+    print "\n"
     @board.each_with_index do |row, index|
       puts row.join(' | ')
       puts '--+---+--' unless index == @board.size - 1
