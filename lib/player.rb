@@ -4,8 +4,8 @@ class Player
     @symbol = symbol
   end
 
-  def get_move
-    print "Enter position (1 - 9): "
+  def move
+    print 'Enter position (1 - 9): '
     gets.chomp.to_i
   end
 end
