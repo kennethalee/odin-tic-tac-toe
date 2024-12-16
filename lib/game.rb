@@ -10,35 +10,50 @@ class Game
   end
 
   def play
-    while game_over? != true
-      @board.display
-      move = @current_player.move
-
-      if @board.valid_move?(move)
-        @board.update(move, @current_player.symbol)
-      else
-        puts 'Invalid move. Try Again'
-        next
-      end
-
-      if @board.check_winner
-        puts "#{@current_player.name} wins!"
-        break
-      elsif @board.full?
-        puts "It's a tie!"
-        break
-      end
-      switch_player
+    until game_over?
+      display_board
+      handle_player_move
+      check_game_status
+      switch_player unless game_over?
     end
   end
 
-  def game_over?
-    if @board.check_winner
-      puts "#{@current_player.Player.name} wins!"
-      true
-    else
-      false
+  private
+
+  def display_board
+    @board.display
+  end
+
+  def handle_player_move
+    loop do
+      move = @current_player.move
+      if @board.valid_move?(move)
+        @board.update(move, @current_player.symbol)
+        break
+      else
+        puts 'Invalid move. Try Again'
+      end
     end
+  end
+
+  def check_game_status
+    if @board.check_winner
+      announce_winner
+    elsif @board.full?
+      announce_tie
+    end
+  end
+
+  def announce_winner
+    puts "#{@current_player.name} wins!"
+  end
+
+  def announce_tie
+    puts "It's a tie!"
+  end
+
+  def game_over?
+    @board.check_winner || @board.full?
   end
 
   def switch_player
