@@ -15,9 +15,7 @@ class Board
   end
 
   def valid_move?(position)
-    return false if position > 9
-
-    true
+    position.is_a?(Integer) && (1..9).include?(position)
   end
 
   def update(position, symbol)
